@@ -1,0 +1,32 @@
+# FastAPI and Server
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Database
+sqlalchemy
+alembic
+pymysql
+cryptography
+
+# Authentication & Security
+python-jose[cryptography]
+passlib[argon2]
+argon2-cffi
+pydantic[email]
+pydantic-settings
+
+# ML/AI Dependencies
+tensorflow
+keras
+# Protobuf compatibility
+protobuf
+numpy
+
+# Testing
+pytest
+pytest-asyncio
+httpx
+
+# Utils
+python-dotenv
