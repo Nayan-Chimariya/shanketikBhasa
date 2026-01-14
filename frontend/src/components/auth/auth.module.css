@@ -1,0 +1,126 @@
+/* src/components/auth/auth.module.css */
+
+.container {
+  /* Ensure minimum height on mobile so keyboard doesn't break layout */
+  min-height: 800px;
+  height: 100vh; 
+}
+
+.circle {
+  position: absolute;
+  width: 2000px;
+  height: 2000px;
+  border-radius: 50%;
+  background: linear-gradient(-45deg, #4481eb, #04befe);
+  top: -10%;
+  right: 48%;
+  transform: translateY(-50%);
+  transition: 1.8s ease-in-out;
+  z-index: 6;
+}
+
+.signinSignup {
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  width: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: 1fr;
+  z-index: 5;
+  transition: 1s 0.7s ease-in-out;
+}
+
+.panelContent, .panelImage {
+  transition: transform 0.9s 0.6s ease-in-out;
+}
+
+/* Desktop: Right panel content pushed to right initially */
+.rightPanel .panelContent, 
+.rightPanel .panelImage {
+  transform: translateX(800px);
+}
+
+/* --- SIGN UP MODE (Desktop) --- */
+.signUpMode .circle {
+  transform: translate(100%, -50%);
+  right: 52%;
+}
+
+.signUpMode .signinSignup {
+  left: 25%;
+}
+
+.signUpMode .leftPanel .panelImage,
+.signUpMode .leftPanel .panelContent {
+  transform: translateX(-800px);
+}
+
+.signUpMode .rightPanel .panelContent,
+.signUpMode .rightPanel .panelImage {
+  transform: translateX(0px);
+}
+
+/* --- RESPONSIVE MOBILE FIXES --- */
+@media (max-width: 870px) {
+  .circle {
+    width: 1500px;
+    height: 1500px;
+    /* LOGIN MODE: Blue Blob at TOP */
+    top: initial;
+    bottom: 68%;
+    left: 30%;
+    right: initial;
+    transform: translateX(-50%);
+    transition: 2s ease-in-out;
+  }
+
+  /* LOGIN MODE: Form at BOTTOM */
+  .signinSignup {
+    width: 100%;
+    top: 85%; /* Sits comfortably at bottom */
+    left: 50%;
+    transform: translate(-50%, -100%);
+    transition: 1s 0.8s ease-in-out;
+  }
+
+  /* Initial Mobile Offsets for Panels */
+  .leftPanel .panelImage,
+  .leftPanel .panelContent {
+    transform: translateY(0px);
+  }
+
+  .rightPanel .panelImage, 
+  .rightPanel .panelContent {
+    transform: translateY(300px); /* Push bottom panel down initially */
+  }
+
+  /* --- SIGN UP MODE ACTIVE (Mobile) --- */
+
+  /* SIGN UP MODE: Blue Blob moves to BOTTOM */
+  .signUpMode .circle {
+    transform: translate(-50%, 100%);
+    bottom: 32%; /* Moves down to cover bottom area */
+    right: initial;
+    left: 50%;
+  }
+
+  /* SIGN UP MODE: Form moves to TOP */
+  .signUpMode .signinSignup {
+    top: 15%; /* 15% from top (prevents title cutoff) */
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  /* SIGN UP MODE: Hide Top Panel (Push Up) */
+  .signUpMode .leftPanel .panelImage,
+  .signUpMode .leftPanel .panelContent {
+    transform: translateY(-300px);
+  }
+
+  /* SIGN UP MODE: Show Bottom Panel (Bring Up) */
+  .signUpMode .rightPanel .panelContent,
+  .signUpMode .rightPanel .panelImage {
+    transform: translateY(0px);
+  }
+}
