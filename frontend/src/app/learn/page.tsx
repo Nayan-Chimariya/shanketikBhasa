@@ -8,6 +8,7 @@ import { predictionApi } from "@/src/lib/api/prediction";
 import { Loader2, Camera, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import HandModelViewer from "@/src/components/learn/HandModelViewer";
+import { courseApi } from "@/src/lib/api/course";
 
 // Standard MediaPipe Hand Connections
 const LANDMARK_CONNECTIONS = [
@@ -28,7 +29,7 @@ export default function LearnPage() {
   const [characterIndex, setCharacterIndex] = useState(0);
   const [predictionResult, setPredictionResult] = useState({ prediction: "--", confidence: 0 });
   const [isCorrect, setIsCorrect] = useState(false);
-
+  
   // Refs
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -38,7 +39,11 @@ export default function LearnPage() {
   
   // --- NEW: Ref to lock predictions instantly without waiting for re-renders ---
   const isPausedRef = useRef(false);
-
+  
+  const { mutate: trackProgress } = useMutation({
+    mutationFn: courseApi.incrementProgress,
+    onError: (err) => console.error("Failed to track progress:", err),
+  });
   // --- API MUTATION ---
   const { mutate: predictSign } = useMutation({
     mutationFn: predictionApi.predict,
@@ -53,6 +58,7 @@ export default function LearnPage() {
         isPausedRef.current = true;
         
         setIsCorrect(true);
+         trackProgress(targetChar); 
         
         setTimeout(() => {
           handleNextChar(); // Move to next
@@ -179,6 +185,7 @@ export default function LearnPage() {
     // 4. Update UI state
     setCameraActive(false);
   };
+
 
   const handleNextChar = () => setCharacterIndex((prev) => (prev + 1) % originalNepaliAlphabets.length);
   const handlePrevChar = () => setCharacterIndex((prev) => (prev - 1 + originalNepaliAlphabets.length) % originalNepaliAlphabets.length);
